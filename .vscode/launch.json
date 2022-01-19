@@ -5,9 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "my_flutter_playground",
+            "name": "run mock mode",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define=FLAVOR=Mock"
+            ]
+        },
+        {
+            "name": "run prod mode",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=FLAVOR=Production"
+            ]
         },
         {
             "name": "my_flutter_playground (profile mode)",

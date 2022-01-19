@@ -1,1 +1,3 @@
 #include "Generated.xcconfig"
+
+INFOPLIST_PREPROCESS=YES
