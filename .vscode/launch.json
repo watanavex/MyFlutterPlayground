@@ -25,6 +25,16 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
+        },
+        {
+            "name": "attach mock mode",
+            "request": "attach",
+            "type": "dart"
+        },
+        {
+            "name": "attach prod mode",
+            "request": "attach",
+            "type": "dart"
         }
     ]
 }
