@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:my_flutter_playground/model/repo_item.dart';
+import 'package:my_flutter_playground/ui/common/async_state_widgets.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state_notifier.dart';
 
 class SearchPage extends HookConsumerWidget {
@@ -25,27 +27,34 @@ class SearchPage extends HookConsumerWidget {
           },
         ),
       ),
-      body: ListView.builder(
-        itemCount: repoItems.length,
-        itemBuilder: (context, index) {
-          return _buildListItems(ref, repoItems[index]);
-        },
+      body: repoItems.on(
+        success: (data) => ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            return _buildListItems(ref, data[index]);
+          },
+        ),
       ),
     );
   }
 
   Widget _buildListItems(WidgetRef ref, RepoItem item) {
+    const leadingSize = 56.0;
+    const placeholder = Icon(
+      Icons.person,
+      size: leadingSize,
+    );
     return ListTile(
       leading: ClipOval(
         child: CachedNetworkImage(
           imageUrl: item.owner.avatarUrl,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.person),
+          placeholder: (context, url) => placeholder,
+          errorWidget: (context, url, error) => placeholder,
         ),
       ),
       title: Text(item.name),
       subtitle: Text(item.owner.login),
-      minLeadingWidth: 56,
+      minLeadingWidth: leadingSize,
     );
   }
 }
