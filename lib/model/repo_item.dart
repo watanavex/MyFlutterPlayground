@@ -6,7 +6,7 @@ part 'repo_item.g.dart';
 
 @freezed
 class RepoItem with _$RepoItem {
-  factory RepoItem({
+  const factory RepoItem({
     required String name,
     required Owner owner,
     required int stargazersCount,

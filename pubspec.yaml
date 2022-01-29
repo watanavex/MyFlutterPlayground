@@ -32,6 +32,8 @@ dependencies:
   
   freezed_annotation:
   retrofit:
+  flutter_hooks:
+  hooks_riverpod:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
