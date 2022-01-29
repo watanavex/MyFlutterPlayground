@@ -10,5 +10,6 @@ typedef RepoItems = List<RepoItem>;
 class SearchPageState with _$SearchPageState {
   const factory SearchPageState({
     required AsyncValue<RepoItems> repoItems,
+    required bool isSearchMode,
   }) = _SearchPageState;
 }

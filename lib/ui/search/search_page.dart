@@ -58,3 +58,54 @@ class SearchPage extends HookConsumerWidget {
     );
   }
 }
+
+class _MyAppBar extends HookConsumerWidget implements PreferredSizeWidget {
+  final _searchIcon = const Icon(Icons.search);
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    print("Render AppBar");
+    final isSearchMode = ref.watch(
+        searchStateNotifierProvider.select((value) => value.isSearchMode));
+    return isSearchMode ? _buildSearchBar(ref) : _buildNormalBar(ref);
+  }
+
+  PreferredSizeWidget _buildNormalBar(WidgetRef ref) {
+    final stateNotifier = ref.watch(searchStateNotifierProvider.notifier);
+    return AppBar(
+      title: const Text("Github Search App"),
+      actions: [
+        IconButton(
+          onPressed: () => stateNotifier.toggleMode(),
+          icon: _searchIcon,
+        )
+      ],
+    );
+  }
+
+  PreferredSizeWidget _buildSearchBar(WidgetRef ref) {
+    final stateNotifier = ref.watch(searchStateNotifierProvider.notifier);
+    return AppBar(
+      leading: _searchIcon,
+      title: TextField(
+        autofocus: true,
+        decoration: const InputDecoration(
+          hintText: '検索ワードを入力してください',
+        ),
+        textInputAction: TextInputAction.search,
+        onSubmitted: (string) {
+          stateNotifier.searchRepos(string);
+        },
+      ),
+      actions: [
+        IconButton(
+          onPressed: () => stateNotifier.toggleMode(),
+          icon: const Icon(Icons.close),
+        )
+      ],
+    );
+  }
+}
