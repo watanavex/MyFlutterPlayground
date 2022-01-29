@@ -10,31 +10,25 @@ class SearchPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stateNotifier = ref.watch(searchStateNotifierProvider.notifier);
+    return Scaffold(
+      appBar: _MyAppBar(),
+      body: _buildBody(context, ref),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, WidgetRef ref) {
     final repoItems = ref
         .watch(searchStateNotifierProvider.select((value) => value.repoItems));
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: const Icon(Icons.search),
-        title: TextField(
-          decoration: const InputDecoration(
-            hintText: '検索ワードを入力してください',
-          ),
-          textInputAction: TextInputAction.search,
-          onSubmitted: (string) {
-            stateNotifier.searchRepos(string);
-          },
-        ),
-      ),
-      body: repoItems.on(
-        success: (data) => ListView.builder(
+    return repoItems.on(
+      context: context,
+      success: (data) {
+        return ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
             return _buildListItems(ref, data[index]);
           },
-        ),
-      ),
+        );
+      },
     );
   }
 

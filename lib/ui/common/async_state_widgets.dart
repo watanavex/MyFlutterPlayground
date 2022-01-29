@@ -3,21 +3,32 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 extension AsyncValueExtention<T> on AsyncValue<T> {
   Widget on({
+    required BuildContext context,
     required Widget Function(T data) success,
     Widget Function(Object error) error = buidErrorWidget,
-    Widget Function() loading = buildLoadingWidget,
+    Widget Function(BuildContext context) loading = buildLoadingWidget,
   }) {
+    print("Render ListvView");
     return when(
       data: success,
       error: (e, stackTrace) => error(e),
-      loading: () => loading(),
+      loading: () => loading(context),
     );
   }
 }
 
-Widget buildLoadingWidget() {
-  return const Center(
-    child: CircularProgressIndicator(),
+Widget buildLoadingWidget(BuildContext context) {
+  final Size size = MediaQuery.of(context).size;
+  final top = MediaQuery.of(context).padding.top;
+  final appBarHeight = top + kToolbarHeight;
+  return SingleChildScrollView(
+    child: SizedBox(
+      width: size.width,
+      height: size.height - appBarHeight,
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    ),
   );
 }
 
