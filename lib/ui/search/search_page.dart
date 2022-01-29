@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state_notifier.dart';
@@ -13,7 +14,7 @@ class SearchPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+        leading: const Icon(Icons.search),
         title: TextField(
           decoration: const InputDecoration(
             hintText: '検索ワードを入力してください',
@@ -29,10 +30,16 @@ class SearchPage extends HookConsumerWidget {
         itemBuilder: (context, index) {
           return ListTile(
             leading: ClipOval(
-              child: Image.network(repoItems[index].owner.avatarUrl),
+              child: CachedNetworkImage(
+                imageUrl: repoItems[index].owner.avatarUrl,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.person),
+              ),
             ),
             title: Text(repoItems[index].name),
             subtitle: Text(repoItems[index].owner.login),
+            minLeadingWidth: 56,
           );
         },
       ),
