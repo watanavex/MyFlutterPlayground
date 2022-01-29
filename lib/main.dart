@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_playground/api/api_client.dart';
+import 'package:my_flutter_playground/api/search_api.dart';
+import 'package:my_flutter_playground/model/repo_item.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +29,16 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  var _repoItems = <RepoItem>[];
+  final _searchApi = SearchApi(provideDio());
+
+  void _search(String query) async {
+    final searchResult = await _searchApi.search(query);
+    setState(() {
+      _repoItems = searchResult.items;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,17 +50,19 @@ class _SearchPageState extends State<SearchPage> {
           ),
           textInputAction: TextInputAction.search,
           onSubmitted: (string) {
-            print(string);
+            _search(string);
           },
         ),
       ),
       body: ListView.builder(
-        itemCount: 20,
+        itemCount: _repoItems.length,
         itemBuilder: (context, index) {
-          return const ListTile(
-            leading: Icon(Icons.person),
-            title: Text("Title"),
-            subtitle: Text("Subtitle"),
+          return ListTile(
+            leading: ClipOval(
+              child: Image.network(_repoItems[index].owner.avatarUrl),
+            ),
+            title: Text(_repoItems[index].name),
+            subtitle: Text(_repoItems[index].owner.login),
           );
         },
       ),

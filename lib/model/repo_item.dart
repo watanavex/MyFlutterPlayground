@@ -12,7 +12,7 @@ class RepoItem with _$RepoItem {
     required int stargazersCount,
     required int forksCount,
     required int openIssuesCount,
-    required String language,
+    String? language,
   }) = _RepoItem;
 
   factory RepoItem.fromJson(Map<String, dynamic> json) =>
