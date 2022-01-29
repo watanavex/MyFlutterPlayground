@@ -28,21 +28,24 @@ class SearchPage extends HookConsumerWidget {
       body: ListView.builder(
         itemCount: repoItems.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: repoItems[index].owner.avatarUrl,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.person),
-              ),
-            ),
-            title: Text(repoItems[index].name),
-            subtitle: Text(repoItems[index].owner.login),
-            minLeadingWidth: 56,
-          );
+          return _buildListItems(ref, repoItems[index]);
         },
       ),
+    );
+  }
+
+  Widget _buildListItems(WidgetRef ref, RepoItem item) {
+    return ListTile(
+      leading: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: item.owner.avatarUrl,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.person),
+        ),
+      ),
+      title: Text(item.name),
+      subtitle: Text(item.owner.login),
+      minLeadingWidth: 56,
     );
   }
 }
