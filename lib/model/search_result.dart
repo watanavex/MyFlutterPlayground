@@ -7,7 +7,7 @@ part 'search_result.g.dart';
 
 @freezed
 class SearchResult with _$SearchResult {
-  factory SearchResult({
+  const factory SearchResult({
     required int totalCount,
     required bool incompleteResults,
     required List<RepoItem> items,

@@ -6,13 +6,13 @@ part 'repo_item.g.dart';
 
 @freezed
 class RepoItem with _$RepoItem {
-  factory RepoItem({
+  const factory RepoItem({
     required String name,
     required Owner owner,
     required int stargazersCount,
     required int forksCount,
     required int openIssuesCount,
-    required String language,
+    String? language,
   }) = _RepoItem;
 
   factory RepoItem.fromJson(Map<String, dynamic> json) =>
