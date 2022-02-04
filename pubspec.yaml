@@ -35,6 +35,7 @@ dependencies:
   flutter_hooks:
   hooks_riverpod:
   cached_network_image:
+  auto_size_text:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

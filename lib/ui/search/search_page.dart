@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:my_flutter_playground/model/repo_item.dart';
 import 'package:my_flutter_playground/ui/common/async_state_widgets.dart';
+import 'package:my_flutter_playground/ui/common/custom_image_widget.dart';
+import 'package:my_flutter_playground/ui/detail/detail_page.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state_notifier.dart';
 
 class SearchPage extends HookConsumerWidget {
@@ -25,30 +26,47 @@ class SearchPage extends HookConsumerWidget {
         return ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
-            return _buildListItems(ref, data[index]);
+            return _buildListItems(context, ref, index, data[index]);
           },
         );
       },
     );
   }
 
-  Widget _buildListItems(WidgetRef ref, RepoItem item) {
+  Widget _buildListItems(
+      BuildContext context, WidgetRef ref, int index, RepoItem item) {
     const leadingSize = 56.0;
     const placeholder = Icon(
       Icons.person,
       size: leadingSize,
     );
+    final imageIdentifier = item.owner.avatarUrl + index.toString();
     return ListTile(
-      leading: ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: item.owner.avatarUrl,
-          placeholder: (context, url) => placeholder,
-          errorWidget: (context, url, error) => placeholder,
-        ),
+      leading: CustomImageWidget(
+        imageUrl: item.owner.avatarUrl,
+        placeholder: () => placeholder,
+        identifier: imageIdentifier,
       ),
-      title: Text(item.name),
-      subtitle: Text(item.owner.login),
+      title: Text(
+        item.name,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      subtitle: Text(
+        item.owner.login,
+        style: Theme.of(context).textTheme.caption,
+      ),
       minLeadingWidth: leadingSize,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DetailPage(
+              item: item,
+              imageIdentifier: imageIdentifier,
+            ),
+          ),
+        );
+      },
     );
   }
 }
