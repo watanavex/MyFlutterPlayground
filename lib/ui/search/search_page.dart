@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:my_flutter_playground/model/repo_item.dart';
 import 'package:my_flutter_playground/ui/common/async_state_widgets.dart';
 import 'package:my_flutter_playground/ui/common/custom_image_widget.dart';
 import 'package:my_flutter_playground/ui/detail/detail_page.dart';
+import 'package:my_flutter_playground/ui/search/search_page_state.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state_notifier.dart';
 
 class SearchPage extends HookConsumerWidget {
@@ -18,9 +18,9 @@ class SearchPage extends HookConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context, WidgetRef ref) {
-    final repoItems = ref
-        .watch(searchStateNotifierProvider.select((value) => value.repoItems));
-    return repoItems.on(
+    final repos =
+        ref.watch(searchStateNotifierProvider.select((value) => value.repos));
+    return repos.on(
       context: context,
       success: (data) {
         return ListView.builder(
@@ -34,25 +34,25 @@ class SearchPage extends HookConsumerWidget {
   }
 
   Widget _buildListItems(
-      BuildContext context, WidgetRef ref, int index, RepoItem item) {
+      BuildContext context, WidgetRef ref, int index, Repo repo) {
     const leadingSize = 56.0;
     const placeholder = Icon(
       Icons.person,
       size: leadingSize,
     );
-    final imageIdentifier = item.owner.avatarUrl + index.toString();
+    final imageIdentifier = repo.imageUrl + index.toString();
     return ListTile(
       leading: CustomImageWidget(
-        imageUrl: item.owner.avatarUrl,
+        imageUrl: repo.imageUrl,
         placeholder: () => placeholder,
         identifier: imageIdentifier,
       ),
       title: Text(
-        item.name,
+        repo.name,
         style: Theme.of(context).textTheme.headline6,
       ),
       subtitle: Text(
-        item.owner.login,
+        repo.owner,
         style: Theme.of(context).textTheme.caption,
       ),
       minLeadingWidth: leadingSize,
@@ -61,7 +61,8 @@ class SearchPage extends HookConsumerWidget {
           context,
           MaterialPageRoute(
             builder: (_) => DetailPage(
-              item: item,
+              owner: repo.owner,
+              name: repo.name,
               imageIdentifier: imageIdentifier,
             ),
           ),

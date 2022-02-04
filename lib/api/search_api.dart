@@ -1,7 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:my_flutter_playground/api/api_client.dart';
-import 'package:my_flutter_playground/model/search_result.dart';
+import 'package:my_flutter_playground/data/search_result.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -17,17 +16,3 @@ abstract class SearchApi {
   @GET("/search/repositories")
   Future<SearchResult> search(@Query("q") String query);
 }
-
-// class _SearchApi2 implements SearchApi {
-//   factory _SearchApi2(this._dio, {this.baseUrl}) {
-//     baseUrl ??= 'https://api.github.com';
-//   }
-
-//   final Dio _dio;
-
-//   String? baseUrl;
-
-//   Future<SearchResult> search(@Query("q") String query) {
-//     throw Error();
-//   }
-// }

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_flutter_playground/model/owner.dart';
+import 'owner.dart';
 
 part 'repo_item.freezed.dart';
 part 'repo_item.g.dart';
@@ -12,6 +12,7 @@ class RepoItem with _$RepoItem {
     required int stargazersCount,
     required int forksCount,
     required int openIssuesCount,
+    required String description,
     String? language,
   }) = _RepoItem;
 

@@ -1,17 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:my_flutter_playground/model/repo_item.dart';
-import 'package:my_flutter_playground/ui/common/custom_image_widget.dart';
 
 class DetailPage extends HookConsumerWidget {
   const DetailPage({
     Key? key,
-    required this.item,
+    required this.owner,
+    required this.name,
     required this.imageIdentifier,
   }) : super(key: key);
 
-  final RepoItem item;
+  final String owner;
+  final String name;
   final String imageIdentifier;
 
   @override

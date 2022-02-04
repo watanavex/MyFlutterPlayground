@@ -9,7 +9,7 @@ final searchStateNotifierProvider =
 class SearchStateNotifier extends StateNotifier<SearchPageState> {
   SearchStateNotifier(this._reader)
       : super(const SearchPageState(
-            repoItems: AsyncValue.data([]), isSearchMode: false));
+            repos: AsyncValue.data([]), isSearchMode: false));
 
   final Reader _reader;
   late final _searchApi = _reader(searchApiProvider);
@@ -19,19 +19,27 @@ class SearchStateNotifier extends StateNotifier<SearchPageState> {
   }
 
   void searchRepos(String query) async {
-    if (state.repoItems is AsyncLoading) {
+    if (state.repos is AsyncLoading) {
       return;
     }
     state = state.copyWith(
-      repoItems: const AsyncValue.loading(),
+      repos: const AsyncValue.loading(),
     );
 
     try {
       final result = await _searchApi.search(query);
-      state = state.copyWith(repoItems: AsyncValue.data(result.items));
+      final repos = result.items
+          .map((item) => Repo(
+              owner: item.owner.login,
+              name: item.name,
+              imageUrl: item.owner.avatarUrl))
+          .toList();
+      state = state.copyWith(
+        repos: AsyncValue.data(repos),
+      );
     } catch (e) {
       state = state.copyWith(
-        repoItems: AsyncValue.error(e),
+        repos: AsyncValue.error(e),
       );
     }
   }
