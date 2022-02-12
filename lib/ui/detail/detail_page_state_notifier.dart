@@ -31,7 +31,7 @@ class DetailPageStateNotifier extends StateNotifier<DetailPageState> {
         language: repoItem.language,
         starCount: repoItem.stargazersCount,
         forksCount: repoItem.forksCount,
-        watchersCount: repoItem.subscribersCount ?? -1,
+        watchersCount: repoItem.subscribersCount,
         issueCount: repoItem.openIssuesCount,
       );
       state = state.copyWith(detail: AsyncValue.data(detail));

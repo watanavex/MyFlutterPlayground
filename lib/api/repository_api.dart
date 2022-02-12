@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:my_flutter_playground/api/api_client.dart';
-import 'package:my_flutter_playground/data/repo_item.dart';
+import 'package:my_flutter_playground/data/repo_detail.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -16,5 +16,5 @@ abstract class RepositoryApi {
   factory RepositoryApi(Dio dio) = _RepositoryApi;
 
   @GET("/repos/{owner}/{repo}")
-  Future<RepoItem> fetch(@Path() String owner, @Path() repo);
+  Future<RepoDetail> fetch(@Path() String owner, @Path() repo);
 }
