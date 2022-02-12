@@ -26,26 +26,23 @@ class SearchPage extends HookConsumerWidget {
         return ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) {
-            return _buildListItems(context, ref, index, data[index]);
+            return _buildListItems(context, ref, data[index]);
           },
         );
       },
     );
   }
 
-  Widget _buildListItems(
-      BuildContext context, WidgetRef ref, int index, Repo repo) {
+  Widget _buildListItems(BuildContext context, WidgetRef ref, Repo repo) {
     const leadingSize = 56.0;
     const placeholder = Icon(
       Icons.person,
       size: leadingSize,
     );
-    final imageIdentifier = repo.imageUrl + index.toString();
     return ListTile(
       leading: CustomImageWidget(
         imageUrl: repo.imageUrl,
         placeholder: () => placeholder,
-        identifier: imageIdentifier,
       ),
       title: Text(
         repo.name,
@@ -63,7 +60,6 @@ class SearchPage extends HookConsumerWidget {
             builder: (_) => DetailPage(
               owner: repo.owner,
               name: repo.name,
-              imageIdentifier: imageIdentifier,
             ),
           ),
         );

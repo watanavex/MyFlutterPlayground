@@ -12,7 +12,8 @@ class RepoItem with _$RepoItem {
     required int stargazersCount,
     required int forksCount,
     required int openIssuesCount,
-    required String description,
+    required int? subscribersCount,
+    required String? description,
     String? language,
   }) = _RepoItem;
 
