@@ -5,7 +5,7 @@ part 'owner.g.dart';
 
 @freezed
 class Owner with _$Owner {
-  factory Owner({
+  const factory Owner({
     required String login,
     required String avatarUrl,
   }) = _Owner;

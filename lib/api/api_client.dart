@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// TODO: Include Provider
-Dio provideDio() {
+final dioProvider = Provider((ref) {
   final dio = Dio();
   // flutter run --debug --dart-define=FLAVOR=Production --dart-define=API_TOKEN=$GITHUB_ACCESS_TOKEN
   const apiToken = String.fromEnvironment("API_TOKEN");
@@ -12,4 +12,4 @@ Dio provideDio() {
   }
 
   return dio;
-}
+});

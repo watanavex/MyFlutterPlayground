@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:my_flutter_playground/model/search_result.dart';
+import 'package:my_flutter_playground/data/repo_detail.dart';
+import 'package:my_flutter_playground/data/search_result.dart';
 
 void main() {
-  test("Json parse test", () {
+  test("Json deserialize to SearchResult", () {
     var json = {
       "total_count": 40,
       "incomplete_results": false,
@@ -30,9 +30,34 @@ void main() {
     expect(result.items.first.name, "swift");
     expect(result.items.first.owner.avatarUrl,
         "https://avatars.githubusercontent.com/u/10639145?v=4");
-    expect(result.items.first.stargazersCount, 1);
-    expect(result.items.first.forksCount, 2);
-    expect(result.items.first.openIssuesCount, 3);
-    expect(result.items.first.language, "C++");
+    expect(result.items.first.owner.login, "swift");
+  });
+
+  test("Json deserialize to repo_detail", () {
+    var json = {
+      "name": "swift",
+      "owner": {
+        "login": "swift",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10639145?v=4",
+      },
+      "stargazers_count": 1,
+      "forks_count": 2,
+      "open_issues_count": 3,
+      "subscribers_count": 4,
+      "language": "C++",
+      "description": "description"
+    };
+
+    var result = RepoDetail.fromJson(json);
+    expect(result.name, "swift");
+    expect(result.owner.avatarUrl,
+        "https://avatars.githubusercontent.com/u/10639145?v=4");
+    expect(result.owner.login, "swift");
+    expect(result.stargazersCount, 1);
+    expect(result.forksCount, 2);
+    expect(result.openIssuesCount, 3);
+    expect(result.subscribersCount, 4);
+    expect(result.description, "description");
+    expect(result.language, "C++");
   });
 }
