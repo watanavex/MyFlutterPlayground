@@ -14,5 +14,6 @@ abstract class SearchApi {
   factory SearchApi(Dio dio) = _SearchApi;
 
   @GET("/search/repositories")
-  Future<SearchResult> search(@Query("q") String query);
+  Future<SearchResult> search(
+      @Query("q") String query, @Query("page") int page);
 }

@@ -18,50 +18,90 @@ class SearchPage extends HookConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context, WidgetRef ref) {
-    final repos =
-        ref.watch(searchStateNotifierProvider.select((value) => value.repos));
-    return repos.on(
-      context: context,
-      success: (data) {
-        return ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return _buildListItems(context, ref, data[index]);
-          },
-        );
+    final repos = ref
+        .watch(searchStateNotifierProvider.select((value) => value.asyncState));
+    return repos.when(
+      uninitialized: () {
+        return Container();
+      },
+      searching: () {
+        return buildLoadingWidget(context);
+      },
+      success: (repos, q, p) {
+        return _buildListView(context, ref, repos);
+      },
+      fetchingNext: (repos, q, p) {
+        return _buildListView(context, ref, repos);
+      },
+      fail: () {
+        return buidErrorWidget(context);
+      },
+      empty: () {
+        return buidErrorWidget(context);
       },
     );
   }
 
-  Widget _buildListItems(BuildContext context, WidgetRef ref, Repo repo) {
+  Widget _buildListView(
+      BuildContext context, WidgetRef ref, UiRepoListItem repos) {
+    final notifier = ref.read(searchStateNotifierProvider.notifier);
+    return Scrollbar(
+      child: NotificationListener<ScrollNotification>(
+        child: ListView.builder(
+          itemCount: repos.items.length,
+          itemBuilder: (context, index) {
+            return _buildListItems(context, ref, repos.items[index]);
+          },
+        ),
+        onNotification: (notification) {
+          if (notification.metrics.atEdge &&
+              notification.metrics.extentAfter == 0) {
+            notifier.fetchNext();
+          }
+          return false;
+        },
+      ),
+    );
+  }
+
+  Widget _buildListItems(BuildContext context, WidgetRef ref, ListItem item) {
     const leadingSize = 56.0;
     const placeholder = Icon(
       Icons.person,
       size: leadingSize,
     );
-    return ListTile(
-      leading: CustomImageWidget(
-        imageUrl: repo.imageUrl,
-        placeholder: () => placeholder,
-      ),
-      title: Text(
-        repo.name,
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      subtitle: Text(
-        repo.owner,
-        style: Theme.of(context).textTheme.caption,
-      ),
-      minLeadingWidth: leadingSize,
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DetailPage(
-              owner: repo.owner,
-              name: repo.name,
-            ),
+    return item.when(
+      indicator: () {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+      repo: (owner, name, imageUrl) {
+        return ListTile(
+          leading: CustomImageWidget(
+            imageUrl: imageUrl,
+            placeholder: () => placeholder,
           ),
+          title: Text(
+            name,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          subtitle: Text(
+            owner,
+            style: Theme.of(context).textTheme.caption,
+          ),
+          minLeadingWidth: leadingSize,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DetailPage(
+                  owner: owner,
+                  name: name,
+                ),
+              ),
+            );
+          },
         );
       },
     );
