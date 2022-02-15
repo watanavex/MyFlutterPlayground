@@ -7,10 +7,9 @@ final dioProvider = Provider((ref) {
   const apiToken = String.fromEnvironment("API_TOKEN");
   const flavor = String.fromEnvironment("FLAVOR");
   print("apiToken = $apiToken, $flavor");
-  // if (apiToken.isEmpty == false) {
-  dio.options.headers["Authorization"] =
-      "token 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";
-  // }
+  if (apiToken.isEmpty == false) {
+    dio.options.headers["Authorization"] = "token $apiToken";
+  }
 
   return dio;
 });
