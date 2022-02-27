@@ -1,13 +1,13 @@
-// Dart imports:
+// 🎯 Dart imports:
 import 'dart:convert';
 
-// Package imports:
+// 📦 Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-// Project imports:
+// 🌎 Project imports:
 import 'package:my_flutter_playground/api/search_api.dart';
 import 'package:my_flutter_playground/data/search_result.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state.dart';

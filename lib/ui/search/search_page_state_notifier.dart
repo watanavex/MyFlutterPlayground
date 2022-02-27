@@ -1,7 +1,7 @@
-// Package imports:
+// 📦 Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// Project imports:
+// 🌎 Project imports:
 import 'package:my_flutter_playground/api/search_api.dart';
 import 'package:my_flutter_playground/data/search_result.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state.dart';

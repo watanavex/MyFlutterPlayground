@@ -1,7 +1,7 @@
-// Package imports:
+// 📦 Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
-// Project imports:
+// 🌎 Project imports:
 import 'package:my_flutter_playground/data/repo_detail.dart';
 import 'package:my_flutter_playground/data/search_result.dart';
 

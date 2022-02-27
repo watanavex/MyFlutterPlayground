@@ -1,7 +1,7 @@
-// Package imports:
+// 📦 Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Project imports:
+// 🌎 Project imports:
 import 'package:my_flutter_playground/data/search_result.dart';
 
 part 'search_page_state.freezed.dart';

@@ -1,10 +1,10 @@
-// Flutter imports:
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
+// 📦 Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// Project imports:
+// 🌎 Project imports:
 import 'package:my_flutter_playground/ui/search/search_page.dart';
 
 void main() {
