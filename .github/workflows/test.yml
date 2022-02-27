@@ -1,0 +1,35 @@
+name: "Test"
+on:
+  pull_request:
+
+jobs:
+  import_sorter:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.8.1'
+    - run: which flutter
+    - name: bootstrap
+      run: |
+        flutter pub get
+        flutter pub run build_runner build
+    - run: flutter pub run import_sorter:main --exit-if-changed
+        
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.8.1'
+    - run: which flutter
+    - name: bootstrap
+      run: |
+        flutter pub get
+        flutter pub run build_runner build
+    - run: flutter test
+      
+    
