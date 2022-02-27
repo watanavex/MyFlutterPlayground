@@ -121,7 +121,7 @@ class _MyAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("_/_/_/Render AppBar");
+    debugPrint("_/_/_/Render AppBar");
     final isSearchMode = ref.watch(
         searchStateNotifierProvider.select((value) => value.isSearchMode));
     return isSearchMode ? _buildSearchBar(ref) : _buildNormalBar(ref);
