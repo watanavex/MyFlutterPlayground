@@ -37,6 +37,8 @@ dependencies:
   cached_network_image:
   auto_size_text:
   tuple:
+  mockito:
+  equatable:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -50,6 +52,7 @@ dev_dependencies:
   freezed:
   json_serializable:
   retrofit_generator:
+  import_sorter:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -99,3 +102,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+import_sorter:
+  emojis: true
+  ignored_files:
+    - /*.mocks.dart
+    - /*.g.dart
+    - /*.freezed.dart

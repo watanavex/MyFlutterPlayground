@@ -1,5 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// 🌎 Project imports:
 import 'package:my_flutter_playground/ui/common/async_state_widgets.dart';
 import 'package:my_flutter_playground/ui/common/custom_image_widget.dart';
 import 'package:my_flutter_playground/ui/detail/detail_page.dart';
@@ -116,7 +121,7 @@ class _MyAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("Render AppBar");
+    debugPrint("_/_/_/Render AppBar");
     final isSearchMode = ref.watch(
         searchStateNotifierProvider.select((value) => value.isSearchMode));
     return isSearchMode ? _buildSearchBar(ref) : _buildNormalBar(ref);

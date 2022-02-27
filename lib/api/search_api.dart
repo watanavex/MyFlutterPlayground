@@ -1,8 +1,11 @@
+// 📦 Package imports:
+import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:retrofit/retrofit.dart';
+
+// 🌎 Project imports:
 import 'package:my_flutter_playground/api/api_client.dart';
 import 'package:my_flutter_playground/data/search_result.dart';
-import 'package:retrofit/retrofit.dart';
-import 'package:dio/dio.dart';
 
 part 'search_api.g.dart';
 

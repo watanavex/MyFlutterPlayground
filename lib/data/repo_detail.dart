@@ -1,4 +1,7 @@
+// 📦 Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// 🌎 Project imports:
 import 'owner.dart';
 
 part 'repo_detail.freezed.dart';

@@ -1,10 +1,14 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// 🌎 Project imports:
 import 'package:my_flutter_playground/ui/common/async_state_widgets.dart';
 import 'package:my_flutter_playground/ui/common/custom_image_widget.dart';
-
 import 'detail_page_state_notifier.dart';
 
 class DetailPage extends HookConsumerWidget {

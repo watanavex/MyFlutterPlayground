@@ -1,4 +1,7 @@
+// 📦 Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// 🌎 Project imports:
 import 'package:my_flutter_playground/api/repository_api.dart';
 import 'package:my_flutter_playground/ui/detail/detail_page_state.dart';
 
@@ -23,17 +26,7 @@ class DetailPageStateNotifier extends StateNotifier<DetailPageState> {
 
     try {
       final repoItem = await repositoryApi.fetch(owner, repo);
-      final detail = RepoDetail(
-        owner: repoItem.owner.login,
-        name: repoItem.name,
-        imageUrl: repoItem.owner.avatarUrl,
-        description: repoItem.description,
-        language: repoItem.language,
-        starCount: repoItem.stargazersCount,
-        forksCount: repoItem.forksCount,
-        watchersCount: repoItem.subscribersCount,
-        issueCount: repoItem.openIssuesCount,
-      );
+      final detail = RepoDetail.from(repo: repoItem);
       state = state.copyWith(detail: AsyncValue.data(detail));
     } catch (e) {
       state = state.copyWith(

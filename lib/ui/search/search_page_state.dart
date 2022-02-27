@@ -1,4 +1,8 @@
+// 📦 Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// 🌎 Project imports:
+import 'package:my_flutter_playground/data/search_result.dart';
 
 part 'search_page_state.freezed.dart';
 
@@ -10,44 +14,67 @@ class SearchPageState with _$SearchPageState {
   }) = _SearchPageState;
 }
 
-class UiRepoListItem {
-  List<Repo> _rawItems = [];
-  bool _hasNext = false;
+@freezed
+class UiRepoListItem with _$UiRepoListItem {
+  const UiRepoListItem._();
+  const factory UiRepoListItem({
+    required List<Repo> rawItems,
+    required bool hasNext,
+  }) = _UiRepoListItem;
 
-  UiRepoListItem(List<Repo> rawItems, bool hasNext) {
-    _rawItems = rawItems;
-    _hasNext = hasNext;
+  factory UiRepoListItem.from({required SearchResult searchResult}) {
+    List<Repo> repos = searchResult.items
+        .map((item) => Repo(
+            owner: item.owner.login,
+            name: item.name,
+            imageUrl: item.owner.avatarUrl))
+        .toList();
+
+    final hasNext = searchResult.items.length < searchResult.totalCount;
+    return UiRepoListItem(rawItems: repos, hasNext: hasNext);
   }
 
-  UiRepoListItem add({required List<Repo> rawItems, required bool hasNext}) {
-    return UiRepoListItem(_rawItems + rawItems, hasNext);
+  UiRepoListItem add({required SearchResult searchResult}) {
+    var repos = searchResult.items
+        .map((item) => Repo(
+            owner: item.owner.login,
+            name: item.name,
+            imageUrl: item.owner.avatarUrl))
+        .toList();
+
+    final hasNext = searchResult.items.length < searchResult.totalCount;
+    return UiRepoListItem(rawItems: rawItems + repos, hasNext: hasNext);
   }
 
-  UiRepoListItem update({required bool hasNext}) {
-    return UiRepoListItem(_rawItems, hasNext);
-  }
+  // List<ListItem> items() =>
+  //     hasNext ? [...rawItems, const ListItem.indicator()] : rawItems;
 
-  List<Repo> raw() {
-    return _rawItems;
-  }
+  // UiRepoListItem update({required bool hasNext}) {
+  //   return UiRepoListItem(rawItems: rawItems, hasNext: hasNext);
+  // }
 
-  late final List<ListItem> items =
-      _hasNext ? [..._rawItems, const ListItem.indicator()] : _rawItems;
+  List<ListItem> get items =>
+      hasNext ? [...rawItems, const ListItem.indicator()] : rawItems;
+
+  // @override
+  // List<Object?> get props => [items, _hasNext];
 }
 
 @freezed
-abstract class AsyncState with _$AsyncState {
+class AsyncState with _$AsyncState {
   const factory AsyncState.uninitialized() = Uninitialized;
   const factory AsyncState.searching() = Searching;
-  const factory AsyncState.success(
-      {required UiRepoListItem repoListItem,
-      required String query,
-      required int page}) = Success;
+  const factory AsyncState.success({
+    required UiRepoListItem repoListItem,
+    required String query,
+    required int page,
+  }) = Success;
 
-  const factory AsyncState.fetchingNext(
-      {required UiRepoListItem repoListItem,
-      required String query,
-      required int page}) = FetchingNext;
+  const factory AsyncState.fetchingNext({
+    required UiRepoListItem repoListItem,
+    required String query,
+    required int page,
+  }) = FetchingNext;
   const factory AsyncState.fail() = Fail;
   const factory AsyncState.empty() = Empty;
 }
