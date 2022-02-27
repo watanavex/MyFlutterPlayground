@@ -42,8 +42,12 @@ jobs:
       run: |
         flutter pub get
         flutter pub run build_runner build
-    - run: flutter analyze > flutter_analyze_report.txt
+    - name: Flutter analyze
+      run: |
+        flutter analyze > flutter_analyze_report.txt
+        echo "Exit code: $?"
     - name: Run Danger
+      if: ${{ always() }}
       run: danger
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
