@@ -11,7 +11,7 @@ extension AsyncValueExtention<T> on AsyncValue<T> {
     Widget Function(Object error) error = buidErrorWidget,
     Widget Function(BuildContext context) loading = buildLoadingWidget,
   }) {
-    print("Render ListvView");
+    debugPrint("Render ListvView");
     return when(
       data: success,
       error: (e, stackTrace) => error(e),
