@@ -42,10 +42,9 @@ jobs:
       run: |
         flutter pub get
         flutter pub run build_runner build
+    - run: flutter analyze > flutter_analyze_report.txt
     - name: Run Danger
-      run: |
-        flutter analyze > flutter_analyze_report.txt
-        danger
+      run: danger
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
