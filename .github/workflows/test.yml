@@ -10,6 +10,8 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '2.8.1'
+        cache: true
+        cache-key: '2.8.1'
     - run: which flutter
     - name: bootstrap
       run: |
@@ -25,6 +27,8 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '2.8.1'
+        cache: true
+        cache-key: '2.8.1'
     - run: which flutter
     - name: bootstrap
       run: |
