@@ -1,8 +1,10 @@
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// Project imports:
 import 'package:my_flutter_playground/api/search_api.dart';
 import 'package:my_flutter_playground/data/search_result.dart';
 import 'package:my_flutter_playground/ui/search/search_page_state.dart';
-import 'package:tuple/tuple.dart';
 
 final searchStateNotifierProvider =
     StateNotifierProvider<SearchStateNotifier, SearchPageState>(
@@ -48,15 +50,7 @@ class SearchStateNotifier extends StateNotifier<SearchPageState> {
       return;
     }
 
-    List<Repo> repos = result.items
-        .map((item) => Repo(
-            owner: item.owner.login,
-            name: item.name,
-            imageUrl: item.owner.avatarUrl))
-        .toList();
-
-    final hasNext = result.items.length < result.totalCount;
-    final repoItems = UiRepoListItem(repos, hasNext);
+    final repoItems = UiRepoListItem.from(searchResult: result);
     state = state.copyWith(
       asyncState:
           AsyncState.success(repoListItem: repoItems, query: query, page: page),
@@ -68,25 +62,25 @@ class SearchStateNotifier extends StateNotifier<SearchPageState> {
       return;
     }
 
-    final tuple = state.asyncState.maybeMap(
+    final currentState = state.asyncState.maybeMap(
       success: (value) {
-        return Tuple3(value.repoListItem, value.query, value.page + 1);
+        return value;
       },
       orElse: () {
         AssertionError();
       },
-    );
-    if (tuple == null) {
-      return;
-    }
+    )!;
 
-    UiRepoListItem repoItems = tuple.item1;
-    final String query = tuple.item2;
-    final int page = tuple.item3;
+    UiRepoListItem repoItems = currentState.repoListItem;
+    final String query = currentState.query;
+    final int page = currentState.page + 1;
 
     state = state.copyWith(
       asyncState: AsyncState.fetchingNext(
-          repoListItem: repoItems, query: query, page: page),
+        repoListItem: repoItems,
+        query: query,
+        page: page,
+      ),
     );
 
     final SearchResult result;
@@ -95,22 +89,15 @@ class SearchStateNotifier extends StateNotifier<SearchPageState> {
     } catch (e) {
       state = state.copyWith(
         asyncState: AsyncState.success(
-            repoListItem: repoItems.update(hasNext: false),
-            query: query,
-            page: page),
+          repoListItem: repoItems.copyWith(hasNext: false),
+          query: query,
+          page: page,
+        ),
       );
       return;
     }
 
-    var repos = result.items
-        .map((item) => Repo(
-            owner: item.owner.login,
-            name: item.name,
-            imageUrl: item.owner.avatarUrl))
-        .toList();
-
-    final hasNext = result.items.length < result.totalCount;
-    final newRepoItems = repoItems.add(rawItems: repos, hasNext: hasNext);
+    final newRepoItems = repoItems.add(searchResult: result);
 
     state = state.copyWith(
       asyncState: AsyncState.success(
@@ -119,5 +106,12 @@ class SearchStateNotifier extends StateNotifier<SearchPageState> {
         page: page,
       ),
     );
+  }
+
+  set debugState(SearchPageState state) {
+    assert(() {
+      this.state = state;
+      return true;
+    }(), '');
   }
 }

@@ -1,5 +1,9 @@
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// Project imports:
 import 'package:my_flutter_playground/data/repo_summary.dart';
+
 part 'search_result.freezed.dart';
 part 'search_result.g.dart';
 
